@@ -144,8 +144,10 @@ with mlflow.start_run():
             real_output = discriminator(real_images)
             fake_output = discriminator(fake_images.detach())
 
-            disc_loss = (criterion(real_output, real_labels) +
-                         criterion(fake_output, fake_labels))
+            disc_loss = (
+                criterion(real_output, real_labels)
+                + criterion(fake_output, fake_labels)
+            )
 
             discriminator_optimizer.zero_grad()
             disc_loss.backward()
@@ -165,8 +167,10 @@ with mlflow.start_run():
         avg_g_loss = gen_loss_epoch / num_batches
         avg_d_loss = disc_loss_epoch / num_batches
 
-        print(f"Epoch {epoch + 1} Generator Loss: {avg_g_loss:.4f} "
-              f"Discriminator Loss: {avg_d_loss:.4f}")
+        print(
+            f"Epoch {epoch + 1} Generator Loss: {avg_g_loss:.4f} "
+            f"Discriminator Loss: {avg_d_loss:.4f}"
+        )
 
         mlflow.log_metric("generator_loss", avg_g_loss, step=epoch)
         mlflow.log_metric("discriminator_loss", avg_d_loss, step=epoch)
